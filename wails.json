@@ -1,0 +1,12 @@
+{
+  "name": "labmango",
+  "outputfilename": "labmango",
+  "frontend:install": "pnpm install",
+  "frontend:build": "pnpm run build",
+  "frontend:dev:watcher": "pnpm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Allan Chain",
+    "email": "36528777+AllanChain@users.noreply.github.com"
+  }
+}

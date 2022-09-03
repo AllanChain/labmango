@@ -1,0 +1,26 @@
+{
+  "name": "labmango",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@unocss/reset": "^0.45.14",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.26.3",
+    "@iconify-json/mdi": "^1.1.31",
+    "@types/node": "^18.7.14",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "eslint": "^8.23.0",
+    "typescript": "^4.6.4",
+    "unocss": "^0.45.14",
+    "vite": "^3.0.7",
+    "vue-tsc": "^0.39.5"
+  }
+}
