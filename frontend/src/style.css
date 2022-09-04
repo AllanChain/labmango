@@ -1,9 +1,12 @@
+input:not([type]), input[type='text'], button {
+  font-size: 1rem;
+  border: none;
+  outline: none;
+}
+
 button {
   background: none;
-  outline: none;
-  border: none;
   font-weight: bold;
-  font-size: 1rem;
   position: relative;
   border-radius: 5px;
 }
@@ -26,6 +29,13 @@ button:hover::before {
 
 button:active::before {
   opacity: 0.1;
+}
+
+input:not([type]), input[type='text'] {
+  color: currentColor;
+  padding: 0.3em 0.5em;
+  margin: 0.1em 0.3em;
+  border-radius: 0.3em;
 }
 
 i[class^='i-'] {
