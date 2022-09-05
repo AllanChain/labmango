@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+# The version of the desktop entry specification to which this file complies
+Version=1.0
+Name=LabManGo
+Comment=Lab Management in Golang
+Exec=labmango
+Icon=jupyter
+Terminal=false
+Categories=Office;Education;
