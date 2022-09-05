@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"path"
 	"sort"
 	"strings"
@@ -26,6 +28,7 @@ type LabManConfig struct {
 type App struct {
 	ctx    context.Context
 	config LabManConfig
+	cmd    *exec.Cmd
 }
 
 // NewApp creates a new App application struct
@@ -299,6 +302,56 @@ func (a *App) DeleteLab(lab string) error {
 	return nil
 }
 
-func (a *App) LaunchLab(lab_dir string) error {
-	return nil
+func (a *App) LaunchLab(lab string) {
+	cmd := exec.Command("jupyter-lab", "--no-browser")
+	cmd.Dir = a.config.LabDir
+	a.cmd = cmd
+	a.signalLabStatus()
+	stdoutPipe, _ := cmd.StderrPipe()
+	stdoutReader := bufio.NewReader(stdoutPipe)
+	cmd.Start()
+
+	go func() {
+		bufReader := bufio.NewReader(stdoutReader)
+		nextLineIsURL := false
+		processing := true
+		for {
+			output, _, err := bufReader.ReadLine()
+			if err != nil {
+				break
+			}
+			if !processing {
+				continue
+			}
+			if nextLineIsURL {
+				labURL := string(output[bytes.LastIndex(output, []byte(" "))+1:])
+				if lab != "" {
+					labURL = strings.Replace(labURL, "?token", "/tree/"+lab+"/data?token", 1)
+				}
+				open.Start(labURL)
+				processing = false
+			} else if bytes.HasSuffix(output, []byte("is running at:")) {
+				nextLineIsURL = true
+			}
+			log.Printf("Line: %s", output)
+		}
+		a.cmd = nil
+		log.Println("Command end")
+		a.signalLabStatus()
+	}()
+}
+
+func (a *App) KillLab() {
+	if a.cmd == nil {
+		a.PromptError("Jupyter Lab is not running.")
+	}
+	a.cmd.Process.Kill()
+}
+
+func (a *App) signalLabStatus() {
+	runtime.EventsEmit(a.ctx, "jlab-running", a.cmd != nil)
+}
+
+func (a *App) EditReport(lab string) {
+	open.Start(path.Join(a.config.LabDir, lab, "report", lab+".lyx"))
 }

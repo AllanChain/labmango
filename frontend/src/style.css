@@ -9,6 +9,7 @@ button {
   font-weight: bold;
   position: relative;
   border-radius: 5px;
+  margin: 0 0.2em;
 }
 
 button::before {
@@ -23,11 +24,11 @@ button::before {
   opacity: 0;
 }
 
-button:hover::before {
+button:enabled:hover::before {
   opacity: 0.05;
 }
 
-button:active::before {
+button:enabled:active::before {
   opacity: 0.1;
 }
 

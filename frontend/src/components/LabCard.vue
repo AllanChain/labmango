@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { DeleteLab, ExploreLab } from '@wails/go/main/App'
-const props = defineProps<{ name: string }>()
+import { DeleteLab, EditReport, ExploreLab, LaunchLab } from '@wails/go/main/App'
+const props = defineProps<{ name: string; jlabRunning: boolean }>()
 
 const isDev = import.meta.env.DEV
 </script>
@@ -14,6 +14,18 @@ const isDev = import.meta.env.DEV
       <button class="text-green-500" @click="ExploreLab(name)">
         <i class="i-mdi-folder-open" />
         Explore
+      </button>
+      <button class="text-blue-400" @click="EditReport(name)">
+        <i class="i-mdi-file-edit" />
+        Edit Report
+      </button>
+      <button v-if="!jlabRunning" class="text-orange-500" @click="LaunchLab(name)">
+        <i class="i-mdi-rocket-launch" />
+        JupyterLab
+      </button>
+      <button v-else disabled>
+        <i class="i-mdi-cog-play" />
+        JLab Running
       </button>
       <div class="flex-1" />
       <button v-if="isDev" class="text-red-600" @click="DeleteLab(name)">
